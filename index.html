@@ -149,42 +149,64 @@
     border: 1px solid var(--rule);
     overflow-x: auto;
   }
-  .journey-flow {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    min-width: 900px;
-    padding: 16px 0;
+  .journey-svg-wrap {
+    min-width: 1100px;
+    position: relative;
   }
-  .flow-node {
-    flex: 1;
-    background: var(--paper);
-    padding: 14px 12px;
-    border: 1px solid var(--ink);
-    border-radius: 0;
-    text-align: center;
-    min-height: 78px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  .journey-svg-wrap svg { width: 100%; height: auto; display: block; }
+  .jnode {
+    fill: var(--paper);
+    stroke: var(--ink);
+    stroke-width: 1.5;
   }
-  .flow-node .label {
-    font-size: 10px;
-    color: var(--ink-soft);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
+  .jnode-amazon { stroke: var(--amazon); stroke-width: 2; }
+  .jnode-rakuten { stroke: var(--rakuten); stroke-width: 2; }
+  .jnode-website { stroke: var(--website); stroke-width: 2; }
+  .jnode-gap {
+    fill: rgba(214, 48, 49, 0.08);
+    stroke: var(--gap);
+    stroke-width: 2;
+    stroke-dasharray: 5 4;
+  }
+  .jnode-terminal { fill: var(--ink); }
+  .jline {
+    fill: none;
+    stroke: var(--ink-soft);
+    stroke-width: 1.5;
+  }
+  .jline-amazon { stroke: var(--amazon); }
+  .jline-rakuten { stroke: var(--rakuten); }
+  .jline-website { stroke: var(--website); }
+  .jlabel-mini {
     font-family: 'JetBrains Mono', monospace;
-    margin-bottom: 4px;
+    font-size: 9px;
+    fill: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
   }
-  .flow-node .name { font-weight: 700; font-size: 13px; }
-  .flow-node .count { font-size: 11px; color: var(--ink-soft); margin-top: 2px; }
-  .flow-arrow { color: var(--ink-soft); font-size: 18px; flex-shrink: 0; }
-  .flow-node.gap-zone {
-    background: rgba(214, 48, 49, 0.08);
-    border: 2px dashed var(--gap);
+  .jlabel-name {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    fill: var(--ink);
   }
-  .flow-node.gap-zone .name { color: var(--gap); }
-  .flow-node.terminal { background: var(--ink); color: var(--paper); }
+  .jlabel-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    fill: var(--ink-soft);
+  }
+  .jlabel-gap { fill: var(--gap); }
+  .jlabel-terminal { fill: var(--paper); }
+  .journey-legend {
+    display: flex;
+    gap: 16px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    font-size: 11px;
+    color: var(--ink-soft);
+  }
+  .journey-legend-item { display: flex; align-items: center; gap: 6px; }
+  .journey-legend-swatch { width: 14px; height: 3px; }
   .timeline-wrap { overflow-x: auto; padding-bottom: 16px; }
   .timeline {
     display: grid;
@@ -477,49 +499,94 @@
     <h2 class="section-title">Customer Journey: 流入から解約まで</h2>
     <div class="section-sub">タグの保有者数で顧客の流れを可視化</div>
     <div class="journey">
-      <div class="journey-flow">
-        <div class="flow-node">
-          <div class="label">Trigger</div>
-          <div class="name">流入<br>(LINE登録)</div>
-          <div class="count">14,502人</div>
-        </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node" style="border-color: var(--amazon);">
-          <div class="label">Step 17 (8日)</div>
-          <div class="name">Amazon Nurture</div>
-          <div class="count">1,640人</div>
-        </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node" style="border-color: var(--rakuten);">
-          <div class="label">Step 20 (8日)</div>
-          <div class="name">Rakuten Nurture</div>
-          <div class="count">1,892人</div>
-        </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node" style="border-color: var(--website);">
-          <div class="label">Step 21 (14日)</div>
-          <div class="name">Website Nurture</div>
-          <div class="count">3,150人</div>
-        </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node">
-          <div class="label">Outcome</div>
-          <div class="name">EC連携<br>(購入)</div>
-          <div class="count">4,652人 / 29%</div>
-        </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node gap-zone">
-          <div class="label">⚠ GAP</div>
-          <div class="name">2回目定期<br>転換ステップ</div>
-          <div class="count">未実装</div>
-        </div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node terminal">
-          <div class="label">Result</div>
-          <div class="name">34-46%<br>初回で解約</div>
-          <div class="count">最大の出血点</div>
-        </div>
+      <div class="journey-svg-wrap">
+        <svg viewBox="0 0 1100 440" xmlns="http://www.w3.org/2000/svg">
+          <!-- ===== ENTRY ===== -->
+          <g>
+            <rect class="jnode" x="20" y="180" width="160" height="80"/>
+            <text class="jlabel-mini" x="100" y="200" text-anchor="middle">ENTRY</text>
+            <text class="jlabel-name" x="100" y="225" text-anchor="middle">LINE 友だち登録</text>
+            <text class="jlabel-count" x="100" y="245" text-anchor="middle">14,502人</text>
+          </g>
+
+          <!-- ===== BRANCH LABEL ===== -->
+          <text class="jlabel-mini" x="220" y="65" text-anchor="start">↓ 購入チャネル別に分岐 (並列・排他)</text>
+
+          <!-- ===== AMAZON PATH ===== -->
+          <path class="jline jline-amazon" d="M 180 220 Q 230 220, 240 110 L 280 110"/>
+          <g>
+            <rect class="jnode jnode-amazon" x="280" y="80" width="200" height="60"/>
+            <text class="jlabel-mini" x="380" y="98" text-anchor="middle">STEP 17 · 8日</text>
+            <text class="jlabel-name" x="380" y="115" text-anchor="middle">Amazon Nurture</text>
+            <text class="jlabel-count" x="380" y="131" text-anchor="middle">1,640人 · AMAZON2025</text>
+          </g>
+          <path class="jline jline-amazon" d="M 480 110 Q 540 110, 550 200 L 580 220"/>
+
+          <!-- ===== RAKUTEN PATH ===== -->
+          <path class="jline jline-rakuten" d="M 180 220 L 280 220"/>
+          <g>
+            <rect class="jnode jnode-rakuten" x="280" y="190" width="200" height="60"/>
+            <text class="jlabel-mini" x="380" y="208" text-anchor="middle">STEP 20 · 8日</text>
+            <text class="jlabel-name" x="380" y="225" text-anchor="middle">Rakuten Nurture</text>
+            <text class="jlabel-count" x="380" y="241" text-anchor="middle">1,892人 · RAKUTEN2025</text>
+          </g>
+          <path class="jline jline-rakuten" d="M 480 220 L 580 220"/>
+
+          <!-- ===== WEBSITE PATH ===== -->
+          <path class="jline jline-website" d="M 180 220 Q 230 220, 240 330 L 280 330"/>
+          <g>
+            <rect class="jnode jnode-website" x="280" y="300" width="200" height="60"/>
+            <text class="jlabel-mini" x="380" y="318" text-anchor="middle">STEP 21 · 14日</text>
+            <text class="jlabel-name" x="380" y="335" text-anchor="middle">Website Nurture</text>
+            <text class="jlabel-count" x="380" y="351" text-anchor="middle">3,150人 · 自社EC購入</text>
+          </g>
+          <path class="jline jline-website" d="M 480 330 Q 540 330, 550 240 L 580 220"/>
+
+          <!-- ===== EC連携 (CONVERGENCE) ===== -->
+          <g>
+            <rect class="jnode" x="580" y="180" width="160" height="80"/>
+            <text class="jlabel-mini" x="660" y="200" text-anchor="middle">CONVERGE</text>
+            <text class="jlabel-name" x="660" y="223" text-anchor="middle">EC連携 (購入)</text>
+            <text class="jlabel-count" x="660" y="245" text-anchor="middle">4,652人 / 29%</text>
+          </g>
+          <path class="jline" d="M 740 220 L 780 220" marker-end="url(#arrow)"/>
+
+          <!-- ===== GAP ZONE ===== -->
+          <g>
+            <rect class="jnode jnode-gap" x="780" y="170" width="160" height="100"/>
+            <text class="jlabel-mini jlabel-gap" x="860" y="195" text-anchor="middle">⚠ CRITICAL GAP</text>
+            <text class="jlabel-name jlabel-gap" x="860" y="220" text-anchor="middle">2回目定期</text>
+            <text class="jlabel-name jlabel-gap" x="860" y="237" text-anchor="middle">転換ステップ</text>
+            <text class="jlabel-count jlabel-gap" x="860" y="257" text-anchor="middle">未実装</text>
+          </g>
+          <path class="jline" d="M 940 220 L 980 220" marker-end="url(#arrow)"/>
+
+          <!-- ===== TERMINAL ===== -->
+          <g>
+            <rect class="jnode jnode-terminal" x="980" y="180" width="110" height="80"/>
+            <text class="jlabel-mini jlabel-terminal" x="1035" y="200" text-anchor="middle">RESULT</text>
+            <text class="jlabel-name jlabel-terminal" x="1035" y="222" text-anchor="middle">34-46%</text>
+            <text class="jlabel-name jlabel-terminal" x="1035" y="240" text-anchor="middle">初回で解約</text>
+          </g>
+
+          <!-- ===== ARROWHEAD MARKER ===== -->
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--ink-soft)"/>
+            </marker>
+          </defs>
+        </svg>
       </div>
+
+      <div class="journey-legend">
+        <div class="journey-legend-item"><div class="journey-legend-swatch" style="background:var(--amazon)"></div>Amazon購入者経路 (Step 17)</div>
+        <div class="journey-legend-item"><div class="journey-legend-swatch" style="background:var(--rakuten)"></div>Rakuten購入者経路 (Step 20)</div>
+        <div class="journey-legend-item"><div class="journey-legend-swatch" style="background:var(--website)"></div>自社EC購入者経路 (Step 21)</div>
+      </div>
+
+      <p style="margin-top: 24px; font-size: 13px; color: var(--ink-soft); line-height: 1.7;">
+        <strong style="color: var(--ink);">読み方:</strong> 顧客は購入チャネル(Amazon/Rakuten/自社EC)に応じて<strong style="color: var(--ink);">いずれか1つの経路</strong>を通る (排他的)。3経路がすべて「EC連携」に収束した後、初回定期受取〜2回目発送までの期間 (Day 10-25) が完全に無施策のため、34-46%が初回で解約。
+      </p>
     </div>
   </div>
 
