@@ -1,0 +1,95 @@
+"""TO-BE design data for the dashboard - structured content for the new
+'初回定期 → 2回目転換ステップ' (Strategy 3).
+"""
+
+TOBE_STEP = {
+    "id": "TBD-Step XX",
+    "name": "定期初回購入者向け 2回目転換ナーチャリング",
+    "trigger": {
+        "type": "EC Force webhook → ECAI tag add",
+        "tag": "定期初回購入完了",
+        "condition": "EC Forceで定期(月1)初回受注完了 (state=complete + subs_order_id IS NOT NULL + first time)",
+    },
+    "goal_kpi": "2回目継続率 +5-10pt (現状 56% nth=1停止 → 50%以下)",
+    "expected_impact": "月間 数百人規模の解約防止 / LTV 1.3-1.5倍",
+    "content_strategy": "既存Step 17/20/21資産を流用 + 定期特化メッセージを4-5通新規制作",
+    "days": [
+        {
+            "day": 3,
+            "time": "19:00",
+            "title": "商品到着確認 + 効果的な使い方",
+            "goal": "使用習慣定着",
+            "addresses_gap": "GAP #3: 単発訴求 → 定期使用習慣",
+            "outline": [
+                "商品はお手元に届きましたか？",
+                "効果的な使い方ガイド (入浴後5分以内、痛む箇所に直接、優しくマッサージ)",
+                "適量目安 (脚全体: パール大1個 / 肩首: 米粒大2個)",
+                "毎晩の習慣化を促すフレーズ「眠る前のひと塗りで...」",
+            ],
+            "content_source": "新規制作 (Tomomi担当)",
+            "asset_reuse": "Step 21 Day 0 ブランド挨拶素材",
+        },
+        {
+            "day": 7,
+            "time": "19:00",
+            "title": "効果体感タイミング + よくある疑問",
+            "goal": "期待値コントロール",
+            "addresses_gap": "GAP #3: 「すぐ効くと思った」解約防止",
+            "outline": [
+                "マグネシウムは2-4週間で実感する人が多い",
+                "「初回でドラマチック変化なし」は正常",
+                "FAQ Q1: 量が多すぎ/少なすぎ → 個人差OK",
+                "FAQ Q2: べたつき → 5-10分後に乾く",
+                "FAQ Q3: 匂いが気になる → 天然成分由来",
+            ],
+            "content_source": "新規制作",
+            "asset_reuse": "Step 17/20 Day 5 安全性訴求素材を一部流用",
+        },
+        {
+            "day": 14,
+            "time": "19:00",
+            "title": "同じ症状で改善した方の声",
+            "goal": "信頼構築 (途中離脱防止)",
+            "addresses_gap": "GAP #1: Day 14無施策 → UGC配信",
+            "outline": [
+                "「2週間で夜中の脚つりが減った」40代女性",
+                "「肩こりが軽くなった」50代男性",
+                "「乾燥肌にも効いた」30代女性",
+                "「2-3ヶ月で更に変化を実感」継続効果訴求",
+            ],
+            "content_source": "既存UGC流用 (Step 21 Day 1-7)",
+            "asset_reuse": "Step 21 Day 1, 2, 4, 7 UGC素材",
+        },
+        {
+            "day": 21,
+            "time": "19:00",
+            "title": "医師推奨 + 成分の科学",
+            "goal": "信頼強化 (専門性訴求)",
+            "addresses_gap": "GAP #1: Day 21無施策",
+            "outline": [
+                "柳澤厚生医師 (整形外科)推奨コメント",
+                "100%天然由来マグネシウムの吸収メカニズム",
+                "他社の塗るマグネシウムとの違い",
+                "「3ヶ月使って実感する深い変化」",
+            ],
+            "content_source": "既存素材流用",
+            "asset_reuse": "Step 21 Day 6, 8, 12 医師推奨/3つの約束素材",
+        },
+        {
+            "day": 26,
+            "time": "19:00",
+            "title": "2回目発送リマインド + 続けるメリット",
+            "goal": "転換クロージング (定期2回目→継続)",
+            "addresses_gap": "GAP #1 + #3: 解約直前の最終プッシュ",
+            "outline": [
+                "「2回目のお届けまであと数日です」",
+                "定期で続ける3つのメリット: 価格 / 在庫切れ防止 / 効果の蓄積",
+                "万が一合わない場合: お届け間隔変更が可能 (停止より柔軟)",
+                "困った時のサポート窓口 (LINE / 電話)",
+                "代表からの感謝メッセージ",
+            ],
+            "content_source": "新規制作 (Tomomi/Kawanaka担当)",
+            "asset_reuse": "Step 21 Day 13 代表クロージング素材",
+        },
+    ],
+}
